@@ -36,6 +36,13 @@ void execute_sudo_apt_get(char * args[]) {
     }
 }
 
+void execute_cd(char *directory) {
+    if (chdir(directory) != 0) {
+        perror("chdir");
+    }
+}
+
+
 void execute_command(char * command) {
     char * args[MAX_ARGS];
     int argc = 0;
@@ -53,6 +60,14 @@ void execute_command(char * command) {
     if (argc == 0) {
         // No command entered
         return;
+    }
+
+    if (strcmp(args[0], "cd") == 0) {
+        if (argc > 1) {
+            execute_cd(args[1]);
+        } else {
+            printf("Missing directory argument for cd command\n");
+        }
     }
 
     if (strcmp(args[0], "&") == 0) {
